@@ -58,7 +58,7 @@ class House(Base):
     sellerID = Column(Integer, ForeignKey(Seller.id))    
     bedrooms = Column(Integer, nullable=False)
     bathrooms = Column(Integer, nullable=False)
-    price = Column(Numeric(11, 2), nullable=False)
+    price = Column(Integer, nullable=False)
     zipcode = Column(Integer)
     sold = Column(Boolean)
 

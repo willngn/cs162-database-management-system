@@ -1,6 +1,7 @@
 from models import *
 from sqlalchemy.orm import sessionmaker 
-from sqlalchemy.sql import select
+import pandas as pd
+
 
 Base.metadata.drop_all(bind=engine)
 Base.metadata.create_all(bind=engine) 
@@ -77,17 +78,75 @@ buyer_info = [
 
 house_keys = ['id', 'officeID', 'sellerID', 'bedrooms', 'bathrooms', 'price', 'zipcode', 'sold']
 house_info = [
-    [0, 3, 6, 2, 2, 120000.50, 94102, False],
-    [1, 2, 6, 2, 2, 120000.50, 94102, False],
-    [2, 4, 6, 2, 2, 120000.50, 94102, False],
-    [3, 5, 6, 2, 2, 120000.50, 94102, False],
-    [4, 1, 6, 2, 2, 120000.50, 94102, False],
-    [5, 0, 6, 2, 2, 120000.50, 94102, False],
-    [6, 8, 6, 2, 2, 120000.50, 94102, False],
-    [7, 9, 6, 2, 2, 120000.50, 94102, False],
-    [8, 2, 6, 2, 2, 120000.50, 94102, False],
-    [9, 6, 6, 2, 2, 120000.50, 94102, False],
-    [10, 4, 6, 2, 2, 120000.50, 94102, False],
-    [11, 1, 6, 2, 2, 120000.50, 94102, False],
-    [12, 0, 6, 2, 2, 120000.50, 94102, False],
-], 
+    [0, 3, 2, 2, 2, 120000, 94102, False],
+    [1, 2, 3, 1, 1, 75000, 10178, False],
+    [2, 4, 1, 3, 1, 150000, 10179, False],
+    [3, 5, 6, 4, 2, 180000, 94103, False],
+    [4, 1, 5, 5, 5, 210000, 42000, False],
+    [5, 0, 6, 2, 2, 125000, 13901, False],
+    [6, 8, 7, 3, 3, 160000, 13410, False],
+    [7, 9, 7, 1, 1, 90000, 42011, False],
+    [8, 2, 2, 2, 1, 100000, 10178, False],
+    [9, 6, 3, 2, 1, 110000, 14984, False],
+    [10, 4, 4, 4, 3, 175000, 10179, False],
+    [11, 1, 1, 3, 1, 80000, 94100, False],
+    [12, 0, 0, 4, 4, 250000, 13901, False]
+]
+
+for i in range(len(agent_info)):
+    # get a temporary holder to store an observation
+    holder = agent_info[i]
+    # add to the table
+    agent = Agent(id = holder[0], name = holder[1], email = holder[2])
+    session.add(agent)
+session.commit()
+
+for i in range(len(office_info)):
+    holder = office_info[i]
+    office = Office(id = holder[0], name = holder[1])
+    session.add(office)
+session.commit()
+
+for i in range(len(office_agent_info)):
+    holder = office_agent_info[i]
+    office_agent = OfficeAgent(officeID = holder[0], agentID = holder[1])
+    session.add(office_agent)
+session.commit()
+
+for i in range(len(seller_info)):
+    holder = seller_info[i]
+    seller = Seller(id = holder[0], name = holder[1], email = holder[2])
+    session.add(seller)
+session.commit()
+
+for i in range(len(buyer_info)):
+    holder = buyer_info[i]
+    buyer = Buyer(id = holder[0], name = holder[1], email = holder[2])
+    session.add(buyer)
+session.commit()
+
+for i in range(len(house_info)):
+    holder = house_info[i]
+    house = House(id = holder[0], officeID = holder[1], sellerID = holder[2], bedrooms = holder[3], bathrooms = holder[4], price = holder[5], zipcode = holder[6], sold = holder[7])
+    session.add(house)
+session.commit()
+session.close()
+
+print("Agent Table:")
+print(pd.read_sql(session.query(Agent).statement, session.bind))
+print("---------------------------------------------------------")
+
+print("Office Table:")
+print(pd.read_sql(session.query(Office).statement, session.bind))
+print("---------------------------------------------------------")
+
+print("Buyer Table:")
+print(pd.read_sql(session.query(Buyer).statement, session.bind))
+print("---------------------------------------------------------")
+
+print("Seller Table:")
+print(pd.read_sql(session.query(Seller).statement, session.bind))
+print("---------------------------------------------------------")
+
+print("House Table:")
+print(pd.read_sql(session.query(House).statement, session.bind))
