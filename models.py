@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Text, Integer, ForeignKey, Numeric, DateTime, Boolean
+from sqlalchemy import create_engine, Column, Text, Integer, ForeignKey, Numeric, DateTime, Boolean, PrimaryKeyConstraint
 from sqlalchemy.ext.declarative import declarative_base
 
 engine = create_engine('sqlite:///database.db')
@@ -23,6 +23,15 @@ class Agent(Base):
 
     def __repr__(self):
         return(f'Agent {self.id}, name={self.name}')
+
+class OfficeAgent(Base):
+    __tablename__ = "office_agent"
+    officeID = Column(Integer, ForeignKey(Office.id), unique = True)
+    agentID = Column(Integer, ForeignKey(Agent.id))
+    __table_args__ = (
+        PrimaryKeyConstraint(agentID, officeID),
+        {},
+    )
 
 class Buyer(Base):
     __tablename__ = "buyer"
