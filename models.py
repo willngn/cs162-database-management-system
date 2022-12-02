@@ -24,15 +24,6 @@ class Agent(Base):
     def __repr__(self):
         return(f'Agent {self.id}, name={self.name}')
 
-class OfficeAgent(Base):
-    __tablename__ = "office_agent"
-    officeID = Column(Integer, ForeignKey(Office.id), unique = True)
-    agentID = Column(Integer, ForeignKey(Agent.id))
-    __table_args__ = (
-        PrimaryKeyConstraint(agentID, officeID),
-        {},
-    )
-
 class Buyer(Base):
     __tablename__ = "buyer"
     id = Column(Integer, primary_key = True)
@@ -55,6 +46,7 @@ class House(Base):
     __tablename__ = "house"
     id = Column(Integer, primary_key = True)
     officeID = Column(Integer, ForeignKey(Office.id))
+    agentID = Column(Integer, ForeignKey(Agent.id))
     sellerID = Column(Integer, ForeignKey(Seller.id))    
     bedrooms = Column(Integer, nullable=False)
     bathrooms = Column(Integer, nullable=False)
@@ -65,7 +57,7 @@ class House(Base):
     def __repr__(self):
         return(f'House {self.id}, price={self.price}, zipcode={self.zipcode}, sold={self.sold}')
 
-class Listing(Base):
+class Transaction(Base):
     __tablename__ = "listing"
     id = Column(Integer, primary_key = True)
     houseID = Column(Integer, ForeignKey(House.id))
@@ -81,8 +73,8 @@ class Commission(Base):
     __tablename__ = "commission"
     id = Column(Integer, primary_key = True)
     agentID = Column(Integer, ForeignKey(Agent.id))
-    listingID = Column(Integer, ForeignKey(Listing.id))
+    transactionID = Column(Integer, ForeignKey(Transaction.id))
     commission = Column(Integer)
 
     def __repr__(self):
-        return(f'For Listing {self.listingID}, agent {self.agentID} receives commission of {self.commission}')
+        return(f'For Listing {self.transactionID}, agent {self.agentID} receives commission of {self.commission}')

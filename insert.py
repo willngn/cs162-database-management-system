@@ -33,20 +33,6 @@ agent_info = [
     [5, "Woo", "woo@gmail.com"]
 ]
 
-office_agent_keys = ['officeID', 'agentID']
-office_agent_info = [
-    [0, 2], 
-    [1, 4],
-    [2, 3], 
-    [3, 3],
-    [4, 2],
-    [5, 0],
-    [6, 1],
-    [7, 5],
-    [8, 5],
-    [9, 2]
-]
-
 seller_keys = ['id', 'name', 'email']
 seller_info = [
     [0, "Jim", "jim@gmail.com"],
@@ -76,21 +62,21 @@ buyer_info = [
     [12, "Anu", "anu@gmail.com"],
 ]
 
-house_keys = ['id', 'officeID', 'sellerID', 'bedrooms', 'bathrooms', 'price', 'zipcode', 'sold']
+house_keys = ['id', 'officeID', 'agentID', 'sellerID', 'bedrooms', 'bathrooms', 'price', 'zipcode', 'sold']
 house_info = [
-    [0, 3, 2, 2, 2, 120000, 94102, False],
-    [1, 2, 3, 1, 1, 75000, 10178, False],
-    [2, 4, 1, 3, 1, 150000, 10179, False],
-    [3, 5, 6, 4, 2, 180000, 94103, False],
-    [4, 1, 5, 5, 5, 210000, 42000, False],
-    [5, 0, 6, 2, 2, 125000, 13901, False],
-    [6, 8, 7, 3, 3, 160000, 13410, False],
-    [7, 9, 7, 1, 1, 90000, 42011, False],
-    [8, 2, 2, 2, 1, 100000, 10178, False],
-    [9, 6, 3, 2, 1, 110000, 14984, False],
-    [10, 4, 4, 4, 3, 175000, 10179, False],
-    [11, 1, 1, 3, 1, 80000, 94100, False],
-    [12, 0, 0, 4, 4, 250000, 13901, False]
+    [0, 3, 2, 2, 2, 2, 120000, 94102, False],
+    [1, 2, 3, 3, 1, 1, 75000, 10178, False],
+    [2, 4, 4, 1, 3, 1, 150000, 10179, False],
+    [3, 5, 5, 6, 4, 2, 180000, 94103, False],
+    [4, 1, 2, 5, 5, 5, 210000, 42000, False],
+    [5, 0, 3, 6, 2, 2, 125000, 13901, False],
+    [6, 8, 5, 7, 3, 3, 160000, 13410, False],
+    [7, 9, 0, 7, 1, 1, 90000, 42011, False],
+    [8, 2, 0, 2, 2, 1, 100000, 10178, False],
+    [9, 6, 1, 3, 2, 1, 110000, 14984, False],
+    [10, 4, 1, 4, 4, 3, 175000, 10179, False],
+    [11, 1, 2, 1, 3, 1, 80000, 94100, False],
+    [12, 0, 5, 0, 4, 4, 250000, 13901, False]
 ]
 
 for i in range(len(agent_info)):
@@ -107,12 +93,6 @@ for i in range(len(office_info)):
     session.add(office)
 session.commit()
 
-for i in range(len(office_agent_info)):
-    holder = office_agent_info[i]
-    office_agent = OfficeAgent(officeID = holder[0], agentID = holder[1])
-    session.add(office_agent)
-session.commit()
-
 for i in range(len(seller_info)):
     holder = seller_info[i]
     seller = Seller(id = holder[0], name = holder[1], email = holder[2])
@@ -127,7 +107,7 @@ session.commit()
 
 for i in range(len(house_info)):
     holder = house_info[i]
-    house = House(id = holder[0], officeID = holder[1], sellerID = holder[2], bedrooms = holder[3], bathrooms = holder[4], price = holder[5], zipcode = holder[6], sold = holder[7])
+    house = House(id = holder[0], officeID = holder[1], agentID = holder[2], sellerID = holder[3], bedrooms = holder[4], bathrooms = holder[5], price = holder[6], zipcode = holder[7], sold = holder[8])
     session.add(house)
 session.commit()
 session.close()
@@ -150,3 +130,4 @@ print("---------------------------------------------------------")
 
 print("House Table:")
 print(pd.read_sql(session.query(House).statement, session.bind))
+
