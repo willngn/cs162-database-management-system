@@ -33,7 +33,18 @@ agent_info = [
 ]
 
 office_agent_keys = ['officeID', 'agentID']
-office_agent_info = []
+office_agent_info = [
+    [0, 2], 
+    [1, 4],
+    [2, 3], 
+    [3, 3],
+    [4, 2],
+    [5, 0],
+    [6, 1],
+    [7, 5],
+    [8, 5],
+    [9, 2]
+]
 
 seller_keys = ['id', 'name', 'email']
 seller_info = [

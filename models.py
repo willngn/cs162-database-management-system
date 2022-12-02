@@ -55,7 +55,6 @@ class House(Base):
     __tablename__ = "house"
     id = Column(Integer, primary_key = True)
     officeID = Column(Integer, ForeignKey(Office.id))
-    agentID = Column(Integer, ForeignKey(Agent.id))
     sellerID = Column(Integer, ForeignKey(Seller.id))    
     bedrooms = Column(Integer, nullable=False)
     bathrooms = Column(Integer, nullable=False)
