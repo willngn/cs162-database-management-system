@@ -60,6 +60,7 @@ class Listing(Base):
 
 class Transaction(Base):
     __tablename__ = "listing"
+    __table_args__ = {'extend_existing': True} 
     id = Column(Integer, primary_key = True, autoincrement=True)
     houseID = Column(Integer, ForeignKey(Listing.id))
     buyerID = Column(Integer, ForeignKey(Buyer.id))
@@ -72,6 +73,7 @@ class Transaction(Base):
 
 class Commission(Base):
     __tablename__ = "commission"
+    __table_args__ = {'extend_existing': True} 
     id = Column(Integer, primary_key = True, autoincrement=True)
     agentID = Column(Integer, ForeignKey(Agent.id))
     transactionID = Column(Integer, ForeignKey(Transaction.id))

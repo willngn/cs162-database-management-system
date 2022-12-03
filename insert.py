@@ -1,6 +1,8 @@
 from models import *
 from sqlalchemy.orm import sessionmaker 
 import pandas as pd
+from sqlalchemy import case
+from datetime import datetime
 
 
 Base.metadata.drop_all(bind=engine)
@@ -133,13 +135,61 @@ print(pd.read_sql(session.query(Listing).statement, session.bind))
 
 def transaction(houseID, buyerID, date):
     """
-    This function demonstrates what happens to the database given a transaction occurs.
+    This function demonstrates what happens to the database system given a transaction occurs.
     It takes in the house bought, the buyer and the date of transaction
 
     Expected behaviors:
     - Compute the commission rate for the corresponding agent
     - Update the house status in the House database
-    - Add this transaction to the Transaction database --> Commit
+    - Add this transaction to the Transaction, Commission database --> Commit
     """
 
+    # Commission rate
+    price = session.query(Listing.price).filter(Listing.id == houseID).first()[0]
+
+    # i referenced this thread: https://stackoverflow.com/questions/5430640/sqlalchemy-case-statement-case-if-then-else
+    commission_rate = case([(Listing.price < 100000, 0.1), 
+           (Listing.price < 200000, 0.075), 
+           (Listing.price < 500000, 0.06), 
+           (Listing.price  < 1000000, 0.05),
+           (Listing.price  > 1000000, 0.04)])
+
+    # update sold status
+    house_sold = session.query(Listing).filter(Listing.id == houseID)
+    house_sold.update({Listing.sold: True})
     
+    # Add to Transaction Database
+    sellerID = session.query(Listing.sellerID).filter(Listing.id == houseID).first()[0]
+    transactionEntry = Transaction(houseID = houseID, buyerID = buyerID, sellerID = sellerID, listingPrice = price, listingDate = date)
+    session.add(transactionEntry)
+    
+
+    # Add to Commission Database
+    transactionID = session.query(Transaction.id).filter(Transaction.houseID == houseID).first()[0]
+    agentID = session.query(Listing.agentID).filter(Listing.id == houseID).first()[0]
+    commissionEntry = Commission(agentID = agentID, transactionID = transactionID, commission = price * commission_rate)
+    session.add(commissionEntry)
+    session.commit()
+
+# insert fictious data
+# reference https://stackoverflow.com/questions/30344237/error-sqlite-datetime-type-only-accepts-python-datetime-and-date-objects-a to debug datetime object
+transaction(1, 10, datetime(2022, 12, 1, 10, 10, 10))
+transaction(5, 5, datetime(2022, 11, 25, 10, 10, 10))
+transaction(11, 3, datetime(2022, 10, 21, 10, 10, 10))
+transaction(7, 0, datetime(2022, 9, 12, 10, 10, 10))
+transaction(0, 1, datetime(2022, 11, 11, 10, 10, 10))
+transaction(2, 8, datetime(2022, 10, 1, 10, 10, 10))
+transaction(6, 2, datetime(2022, 12, 10, 10, 10, 10))
+transaction(4, 4, datetime(2022, 12, 8, 10, 10, 10))
+
+# verify sold status
+print("Listing Table:")
+print(pd.read_sql(session.query(Listing).statement, session.bind))
+print("---------------------------------------------------------")
+# verify commission database
+print("Commission Table:")
+print(pd.read_sql(session.query(Commission).statement, session.bind))
+print("---------------------------------------------------------")
+# verify transaction database
+print("Transaction Table:")
+print(pd.read_sql(session.query(Transaction).statement, session.bind))
