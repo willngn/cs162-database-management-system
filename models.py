@@ -70,10 +70,10 @@ class Transaction(Base):
     buyerID = Column(Integer, ForeignKey(Buyer.id))
     sellerID = Column(Integer, ForeignKey(Seller.id))
     listingPrice = Column(Integer)
-    listingDate = Column(DateTime)
+    transactionDate = Column(DateTime)
 
     def __repr__(self):
-        return(f'Transaction {self.id}, house={self.houseID}, price={self.listingPrice}, date={self.listingDate}')
+        return(f'Transaction {self.id}, house={self.houseID}, price={self.listingPrice}, date={self.transactionDate}')
 
 class Commission(Base):
     __tablename__ = "commission"

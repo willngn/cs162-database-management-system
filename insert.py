@@ -163,7 +163,7 @@ def transaction(house_id, buyer_id, date):
 
     # Add to Transaction Database
     seller_id = session.query(Listing.sellerID).filter(Listing.id == house_id).first()[0]
-    transactionEntry = Transaction(houseID = house_id, buyerID = buyer_id, sellerID = seller_id, listingPrice = price, listingDate = date)
+    transactionEntry = Transaction(houseID = house_id, buyerID = buyer_id, sellerID = seller_id, listingPrice = price, transactionDate = date)
     session.add(transactionEntry)
     session.commit()
 
