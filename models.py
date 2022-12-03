@@ -5,6 +5,9 @@ engine = create_engine('sqlite:///database.db')
 engine.connect()
 
 Base = declarative_base()
+Base.metadata.drop_all(engine)
+Base.metadata.create_all(bind=engine) 
+
 
 class Office(Base):
     __tablename__ = "office"
@@ -59,9 +62,9 @@ class Listing(Base):
         return(f'House {self.id}, price={self.price}, zipcode={self.zipcode}, sold={self.sold}')
 
 class Transaction(Base):
-    __tablename__ = "listing"
-    __table_args__ = {'extend_existing': True} 
-    id = Column(Integer, primary_key = True, autoincrement=True)
+    __tablename__ = "transaction"
+    __table_args__ = {'extend_existing': True}
+    id = Column(Integer, primary_key = True)
     houseID = Column(Integer, ForeignKey(Listing.id))
     buyerID = Column(Integer, ForeignKey(Buyer.id))
     sellerID = Column(Integer, ForeignKey(Seller.id))
@@ -69,12 +72,12 @@ class Transaction(Base):
     listingDate = Column(DateTime)
 
     def __repr__(self):
-        return(f'Listing {self.id}, house={self.houseID}, price={self.listingPrice}, date={self.listingDate}')
+        return(f'Transaction {self.id}, house={self.houseID}, price={self.listingPrice}, date={self.listingDate}')
 
 class Commission(Base):
     __tablename__ = "commission"
-    __table_args__ = {'extend_existing': True} 
-    id = Column(Integer, primary_key = True, autoincrement=True)
+    __table_args__ = {'extend_existing': True}
+    id = Column(Integer, primary_key = True)
     agentID = Column(Integer, ForeignKey(Agent.id))
     transactionID = Column(Integer, ForeignKey(Transaction.id))
     commission = Column(Integer)
