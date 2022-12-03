@@ -178,11 +178,11 @@ def transaction(house_id, buyer_id, date):
 # insert fictious data
 # reference https://stackoverflow.com/questions/30344237/error-sqlite-datetime-type-only-accepts-python-datetime-and-date-objects-a to debug datetime object
 transaction(1, 10, datetime(2022, 12, 1, 10, 10, 10))
-transaction(5, 5, datetime(2022, 11, 25, 10, 10, 10))
-transaction(11, 3, datetime(2022, 10, 21, 10, 10, 10))
-transaction(7, 0, datetime(2022, 9, 12, 10, 10, 10))
-transaction(0, 1, datetime(2022, 11, 11, 10, 10, 10))
-transaction(2, 8, datetime(2022, 10, 1, 10, 10, 10))
+transaction(5, 5, datetime(2022, 12, 25, 10, 10, 10))
+transaction(11, 3, datetime(2022, 12, 21, 10, 10, 10))
+transaction(7, 0, datetime(2022, 12, 12, 10, 10, 10))
+transaction(0, 1, datetime(2022, 12, 11, 10, 10, 10))
+transaction(2, 8, datetime(2022, 12, 1, 10, 10, 10))
 transaction(6, 2, datetime(2022, 12, 10, 10, 10, 10))
 transaction(4, 4, datetime(2022, 12, 8, 10, 10, 10))
 
