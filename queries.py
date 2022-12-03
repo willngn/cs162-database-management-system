@@ -1,8 +1,10 @@
 from models import *
 from insert import Transaction
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import text, func
+from sqlalchemy import text
 import pandas as pd
+from datetime import datetime
+import numpy as np
 
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -38,9 +40,14 @@ for record in results:
 print("Question 4: the average number of days on the market.")
 
 average_market_stay = session.query(
-    func.datediff("Units", Transaction.transactionDate, Listing.date)
+    Transaction.transactionDate, Listing.date
     ).select_from(Listing).join(Transaction).filter(Listing.sold == True).all()
-print(pd.read_sql(average_market_stay, session.bind))
+lst = []
+for a, b in average_market_stay:
+    a1 = a.date()
+    b1 = b.date()
+    lst.append((a1 - b1).days)
+print(np.mean(lst))
 
 print("Question 5:  the average selling price")
 sql5 = text("select SUM(price) / COUNT(sold) from listing where sold == True")
