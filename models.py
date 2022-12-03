@@ -57,6 +57,7 @@ class Listing(Base):
     price = Column(Integer, nullable=False)
     zipcode = Column(Integer)
     sold = Column(Boolean)
+    date = Column(DateTime)
 
     def __repr__(self):
         return(f'House {self.id}, price={self.price}, zipcode={self.zipcode}, sold={self.sold}')

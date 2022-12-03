@@ -63,21 +63,21 @@ buyer_info = [
     [12, "Anu", "anu@gmail.com"]
 ]
 
-house_keys = ['id', 'officeID', 'agentID', 'sellerID', 'bedrooms', 'bathrooms', 'price', 'zipcode', 'sold']
+house_keys = ['id', 'officeID', 'agentID', 'sellerID', 'bedrooms', 'bathrooms', 'price', 'zipcode', 'sold', 'date']
 house_info = [
-    [0, 3, 2, 2, 2, 2, 120000, 94102, False],
-    [1, 2, 3, 3, 1, 1, 75000, 10178, False],
-    [2, 4, 4, 1, 3, 1, 150000, 10179, False],
-    [3, 5, 5, 6, 4, 2, 180000, 94103, False],
-    [4, 1, 2, 5, 5, 5, 210000, 42000, False],
-    [5, 0, 3, 6, 2, 2, 125000, 13901, False],
-    [6, 8, 5, 7, 3, 3, 160000, 13410, False],
-    [7, 9, 0, 7, 1, 1, 90000, 42011, False],
-    [8, 2, 0, 2, 2, 1, 100000, 10178, False],
-    [9, 6, 1, 3, 2, 1, 110000, 14984, False],
-    [10, 4, 1, 4, 4, 3, 175000, 10179, False],
-    [11, 1, 2, 1, 3, 1, 80000, 94100, False],
-    [12, 0, 5, 0, 4, 4, 250000, 13901, False]
+    [0, 3, 2, 2, 2, 2, 120000, 94102, False, datetime(2022, 9, 9, 10, 10, 10)],
+    [1, 2, 3, 3, 1, 1, 75000, 10178, False, datetime(2022, 8, 1, 10, 10, 10)],
+    [2, 4, 4, 1, 3, 1, 150000, 10179, False, datetime(2022, 5, 1, 10, 10, 10)],
+    [3, 5, 5, 6, 4, 2, 180000, 94103, False, datetime(2022, 10, 1, 10, 10, 10)],
+    [4, 1, 2, 5, 5, 5, 210000, 42000, False, datetime(2022, 11, 8, 10, 10, 10)],
+    [5, 0, 3, 6, 2, 2, 125000, 13901, False, datetime(2022, 11, 20, 10, 10, 10)],
+    [6, 8, 5, 7, 3, 3, 160000, 13410, False, datetime(2022, 11, 10, 10, 10, 10)],
+    [7, 9, 0, 7, 1, 1, 90000, 42011, False, datetime(2022, 8, 12, 10, 10, 10)],
+    [8, 2, 0, 2, 2, 1, 100000, 10178, False, datetime(2022, 9, 12, 10, 10, 10)],
+    [9, 6, 1, 3, 2, 1, 110000, 14984, False, datetime(2021, 9, 12, 10, 10, 10)],
+    [10, 4, 1, 4, 4, 3, 175000, 10179, False, datetime(2022, 8, 15, 10, 10, 10)],
+    [11, 1, 2, 1, 3, 1, 80000, 94100, False, datetime(2022, 7, 21, 10, 10, 10)],
+    [12, 0, 5, 0, 4, 4, 250000, 13901, False, datetime(2020, 10, 21, 10, 10, 10)]
 ]
 
 for i in range(len(agent_info)):
@@ -108,7 +108,7 @@ session.commit()
 
 for i in range(len(house_info)):
     holder = house_info[i]
-    house = Listing(id = holder[0], officeID = holder[1], agentID = holder[2], sellerID = holder[3], bedrooms = holder[4], bathrooms = holder[5], price = holder[6], zipcode = holder[7], sold = holder[8])
+    house = Listing(id = holder[0], officeID = holder[1], agentID = holder[2], sellerID = holder[3], bedrooms = holder[4], bathrooms = holder[5], price = holder[6], zipcode = holder[7], sold = holder[8], date = holder[9])
     session.add(house)
 session.commit()
 session.close()
