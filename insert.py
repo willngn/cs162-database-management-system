@@ -59,7 +59,7 @@ buyer_info = [
     [9, "Fuong", "fuong@gmail.com"],
     [10, "Tianhui", "tianhui@gmail.com"],
     [11, "Edith", "edith@gmail.com"],
-    [12, "Anu", "anu@gmail.com"],
+    [12, "Anu", "anu@gmail.com"]
 ]
 
 house_keys = ['id', 'officeID', 'agentID', 'sellerID', 'bedrooms', 'bathrooms', 'price', 'zipcode', 'sold']
@@ -107,7 +107,7 @@ session.commit()
 
 for i in range(len(house_info)):
     holder = house_info[i]
-    house = House(id = holder[0], officeID = holder[1], agentID = holder[2], sellerID = holder[3], bedrooms = holder[4], bathrooms = holder[5], price = holder[6], zipcode = holder[7], sold = holder[8])
+    house = Listing(id = holder[0], officeID = holder[1], agentID = holder[2], sellerID = holder[3], bedrooms = holder[4], bathrooms = holder[5], price = holder[6], zipcode = holder[7], sold = holder[8])
     session.add(house)
 session.commit()
 session.close()
@@ -128,6 +128,18 @@ print("Seller Table:")
 print(pd.read_sql(session.query(Seller).statement, session.bind))
 print("---------------------------------------------------------")
 
-print("House Table:")
-print(pd.read_sql(session.query(House).statement, session.bind))
+print("Listing Table:")
+print(pd.read_sql(session.query(Listing).statement, session.bind))
 
+def transaction(houseID, buyerID, date):
+    """
+    This function demonstrates what happens to the database given a transaction occurs.
+    It takes in the house bought, the buyer and the date of transaction
+
+    Expected behaviors:
+    - Compute the commission rate for the corresponding agent
+    - Update the house status in the House database
+    - Add this transaction to the Transaction database --> Commit
+    """
+
+    

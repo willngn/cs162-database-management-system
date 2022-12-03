@@ -42,8 +42,9 @@ class Seller(Base):
     def __repr__(self):
         return(f'Seller {self.id}, name={self.name}')
 
-class House(Base):
-    __tablename__ = "house"
+class Listing(Base):
+    __tablename__ = "listing"
+    # a house - a listing, so the id here can also be interpreted as houseID
     id = Column(Integer, primary_key = True)
     officeID = Column(Integer, ForeignKey(Office.id))
     agentID = Column(Integer, ForeignKey(Agent.id))
@@ -59,8 +60,8 @@ class House(Base):
 
 class Transaction(Base):
     __tablename__ = "listing"
-    id = Column(Integer, primary_key = True)
-    houseID = Column(Integer, ForeignKey(House.id))
+    id = Column(Integer, primary_key = True, autoincrement=True)
+    houseID = Column(Integer, ForeignKey(Listing.id))
     buyerID = Column(Integer, ForeignKey(Buyer.id))
     sellerID = Column(Integer, ForeignKey(Seller.id))
     listingPrice = Column(Integer)
@@ -71,7 +72,7 @@ class Transaction(Base):
 
 class Commission(Base):
     __tablename__ = "commission"
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, primary_key = True, autoincrement=True)
     agentID = Column(Integer, ForeignKey(Agent.id))
     transactionID = Column(Integer, ForeignKey(Transaction.id))
     commission = Column(Integer)
