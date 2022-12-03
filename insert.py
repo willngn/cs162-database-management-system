@@ -186,6 +186,8 @@ transaction(2, 8, datetime(2022, 10, 1, 10, 10, 10))
 transaction(6, 2, datetime(2022, 12, 10, 10, 10, 10))
 transaction(4, 4, datetime(2022, 12, 8, 10, 10, 10))
 
+# TESTING PURPOSE
+
 # verify sold status
 print("Listing Table:")
 print(pd.read_sql(session.query(Listing).statement, session.bind))
