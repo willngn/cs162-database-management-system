@@ -38,6 +38,7 @@ for record in results:
 # TESTING: makes sense with the above result
 
 print("Question 4: the average number of days on the market.")
+# references: https://stackoverflow.com/questions/3743222/how-do-i-convert-a-datetime-to-date
 
 average_market_stay = session.query(
     Transaction.transactionDate, Listing.date
