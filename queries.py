@@ -2,8 +2,6 @@ from models import *
 from insert import Transaction
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import text
-import pandas as pd
-from datetime import datetime
 import numpy as np
 
 Session = sessionmaker(bind=engine)
